@@ -1,5 +1,50 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Scanner;
+
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
+    public static void main(String[] args) throws IOException {
+
+        //1. Создать метод, который проверяет, является ли строка палиндромом.
+        //Палиндром - шалаш
+        Scanner in = new Scanner(System.in);
+        System.out.println("Java HW2. Task 1 - isPalindrome");
+        System.out.print("Enter word: ");
+        String value = in.next();
+        String result = isPalindrome(value) ? " is a palindrome." : " is not a palindrome.";
+        System.out.println("Word " + value + result);
+        in.close();
+
+
+        // 2. С помощью Java создать файл file.txt, и записать в него слово TEST 100 раз.
+        // Если уже файл создан, то перезаписываем его.
+        System.out.println("Java HW2. Task 2 - print TEST");
+        Path file = Path.of("file.txt");
+
+        try {
+            Files.createFile(file);
+            Files.writeString(file, wordsGenerator("TEST", 100));
+            if (Files.exists(file)) System.out.println("File has been created");
+        } catch (IOException ex) {
+            Files.writeString(file, wordsGenerator("TEST", 100));
+            System.out.println("File has been already exist and was rewritten");
+        }
     }
+
+
+    public static boolean isPalindrome(String word) {
+        StringBuffer strBuffer = new StringBuffer(word);
+        return (word.equals(strBuffer.reverse().toString()));
+    }
+
+    public static String wordsGenerator(String value, int quantity) {
+        StringBuilder creator = new StringBuilder();
+        for (int i = 0; i < quantity; i++) {
+            creator.append(value).append("\n");
+        }
+        return creator.toString();
+    }
+
+
 }
